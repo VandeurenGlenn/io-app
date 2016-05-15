@@ -1,0 +1,6 @@
+{
+  "port": 5000,
+  "logPrefix": ".io",
+  "baseDir": [".tmp"],
+  "snippetMatch": "<span id=\"browser-sync-binding\"></span>"
+}

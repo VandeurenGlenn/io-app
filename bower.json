@@ -1,0 +1,41 @@
+{
+  "name": "io-app",
+  "authors": [
+    "Glenn Vandeuren <vandeurenglenn@gmail.com>"
+  ],
+  "description": "An starting point for your own io page",
+  "keywords": [
+    "starter",
+    "kit",
+    "io",
+    "web-components"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/vandeurenglenn/io-app",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "^1.4.0",
+    "app-layout": "PolymerLabs/app-layout#^0.0.16",
+    "carbon-route": "^0.8.4",
+    "paper-material": "^1.0.6",
+    "paper-button": "^1.0.11",
+    "iron-iconset-svg": "^1.0.9",
+    "google-signin": "^1.3.3",
+    "iron-pages": "^1.0.7"
+  },
+  "devDependencies": {
+    "polymer": "Polymer/polymer#1.4.0",
+    "ragin-app": "DeveloperRagin/ragin-app#^1.0.1",
+    "ragin-ui-drawer": "DeveloperRagin/ragin-ui-drawer#1.0.0",
+    "paper-icon-button": "^1.1.1",
+    "iron-media-query": "^1.0.8",
+    "ragin-ui-content": "DeveloperRagin/ragin-ui-content#1.0.0",
+    "ragin-todo": "^1.0.1"
+  }
+}
