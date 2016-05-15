@@ -1,10 +1,7 @@
 {
   "name": ".io",
-  "contributors": [],
   "inject": {
     "src": ".tmp/**/*.{html,js}",
-    "plugins": [{
-      "github": true
-    }]
+    "plugins": {"github": true}
   }
 }
