@@ -1,0 +1,77 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/carbon-route/carbon-location.html">
+<link rel="import" href="/bower_components/carbon-route/carbon-route.html">
+<link rel="import" href="io-route.html">
+
+<dom-module id="io-routing">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <!-- routing -->
+    <carbon-location route="{{route}}" use-hash-as-path></carbon-location>
+
+    <carbon-route
+        route="{{route}}"
+        pattern=":page"
+        data="{{pageData}}"
+        tail="{{subroute}}">
+    </carbon-route>
+    <carbon-route
+        route="{{route}}"
+        pattern="contributors/contributor/:id"
+        data="{{subrouteData}}"
+        active="{{userInfoActive}}">
+    </carbon-route>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+    class IoRouting {
+      beforeRegister() {
+        this.is = 'io-routing';
+
+        this.properties = {
+
+          pageData: {
+            type: Object,
+            notify: true
+          },
+
+          subrouteData: {
+            type: Object,
+            notify: true
+          },
+
+          route: {
+            type: Object,
+            notify: true,
+            observer: '__pathChange__'
+          },
+
+          userInfoActive: {
+            type: Boolean,
+            value: false,
+            notify: true
+          }
+        };
+      }
+
+      __pathChange__(path) {
+        Array.from(this.querySelectorAll('lab-route')).forEach(routeEl => {
+          routeEl.route = path;
+        });
+      };
+
+      go(route) {
+        // var location =
+        // console.log(document.location.href = );
+        this.set('route.path', route);
+      };
+    }
+    Polymer(IoRouting);
+  })();
+  </script>
+</dom-module>

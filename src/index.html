@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Trendystore io</title>
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=no">
+    <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="elements/io-app.html">
+  </head>
+  <body>
+    <style is="custom-style">
+      body {
+        margin: 0;
+        font-family: 'Roboto', 'Noto', sans-serif;
+        background-color: #eee;
+      }
+    </style>
+    <span id="browser-sync-binding"></span>
+    <template is="dom-bind" id="app">
+      <io-app app-name="[[app.appName]]"></io-app>
+    </template>
+    <script src="/scripts/app.js"></script>
+  </body>
+</html>

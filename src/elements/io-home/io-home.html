@@ -1,0 +1,25 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<dom-module id="io-home">
+  <template>
+    <style include="shared-styles"></style>
+    <style>
+      :host {
+        @apply(--app-section);
+        flex: 1;
+      }
+    </style>
+    <h2>hot projects</h2>
+
+  </template>
+  <script>
+    (function() {
+      'use strict';
+      class IoHome {
+        beforeRegister() {
+          this.is = 'io-home';
+        }
+      }
+      Polymer(IoHome);
+    })();
+  </script>
+</dom-module>

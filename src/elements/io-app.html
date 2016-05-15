@@ -1,0 +1,162 @@
+<link rel="import" href="elements.html">
+
+<dom-module id="io-app">
+  <!-- TODO: test -->
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+        position: absolute;
+        height: 100%;
+        width: 100%;
+      }
+      iron-pages {
+        @apply(--layout-vertical);
+        height: calc(100% - 64px);
+      }
+      app-header paper-icon-button {
+        --paper-icon-button-ink-color: #fff;
+      }
+      app-header {
+        background-color: var(--default-primary-color);
+        color: var(--text-primary-color);
+      }
+      app-drawer-layout {
+        height: 100%;
+        --app-drawer-layout-content-transition: margin 0.2s;
+      }
+      app-drawer {
+        border-right: var(--app-drawer-border);
+        --app-drawer-content-container: {
+          background-color: #eee;
+        }
+      }
+      paper-icon-item {
+        cursor: pointer;
+      }
+    </style>
+    <!-- <carbon-location route="{{route}}"></carbon-location> -->
+      <io-routing
+        page="{{page}}"
+        routes="[[routes]]"
+        page-data="{{pageData}}"
+        subroute-data="{{subrouteData}}"
+        user-info-active="{{contributorInfoActive}}">
+      </io-routing>
+
+      <app-drawer-layout responsive-width="1440px">
+
+        <app-drawer>
+          <io-drawer-header user="[[user]]">
+          </io-drawer-header>
+          <paper-icon-item class="iconItem" on-click="goHome">
+            <iron-icon class="grayIcon" icon="home" item-icon></iron-icon> <span>Home</span>
+          </paper-icon-item>
+
+          <paper-icon-item class="iconItem" on-click="goContributors">
+            <iron-icon class="grayIcon" icon="info" item-icon></iron-icon> <span>Contributors</span>
+          </paper-icon-item>
+
+          <paper-icon-item class="iconItem" on-click="goContact">
+            <iron-icon class="grayIcon" icon="mail" item-icon></iron-icon> <span>Contact</span>
+          </paper-icon-item>
+        </app-drawer>
+
+        <app-header fixed effects="waterfall">
+          <app-toolbar>
+            <paper-icon-button id="toggle" icon="menu" drawer-toggle></paper-icon-button>
+
+            <template is="dom-if" if="[[user]]">
+              <iron-icon icon="io-icons:logo"></iron-icon>
+              <div title class="app-name">io</div>
+            </template>
+
+            <span class="page-title">[[pageData.page]]</span>
+
+            <div class="flex"></div>
+            <io-login client-id="751723094569-oh83n7n4vuif9fabigeqamivr28pbfsa.apps.googleusercontent.com" user="{{user}}"></io-login>
+          </app-toolbar>
+        </app-header>
+
+          <iron-pages selected="[[pageData.page]]" attr-for-selected="id">
+            <io-home id="home"></io-home>
+            <io-contributors
+              id="contributors"
+              contributors="[[contributors]]"
+              active="[[contributorInfoActive]]"
+              data="[[subrouteData]]">
+            </io-contributors>
+            <section id="contact">
+              <paper-material elevation="1">
+                <h2 class="title-1">Contact</h2>
+                <p class="text-1">This is our contact page.</p>
+              </paper-material>
+            </section>
+          </iron-pages>
+      </app-drawer-layout>
+
+  </template>
+  <script>
+  (function() {
+    class IoApp {
+      beforeRegister() {
+        this.is = 'io-app';
+
+        this.properties = {
+
+          appName: String,
+
+          contributors: {
+            type: Array,
+            value: function() {
+              return '@inject:contributors';
+            }
+          },
+
+          route: {
+            type: Object,
+            value: {}
+          }
+        };
+
+        this.listeners = {
+          click: 'onClick',
+          mouseup: 'handleMouse',
+          mousedown: 'handleMouse',
+          mousemove: 'handleMouse'
+        };
+      }
+
+      attached() {
+       if (!this.route.path) {
+         this.set('route.path', '/home');
+       }
+     };
+
+     get iconSet() {
+       if (!this._iconSet) {
+        //  this._iconSet = document.createElement('io-icons');
+        //  Polymer.dom(document).appendChild(this._iconSet);
+       }
+       return this.querySelector('io-icons');
+     };
+
+      goHome() { document.querySelector('io-routing').go('home'); };
+
+      goContributors() { document.querySelector('io-routing').go('contributors'); };
+
+      goContact() { document.querySelector('io-routing').go('contact'); };
+
+      onClick(e) {
+        e.passive = true;
+      }
+
+      handleMouse(e) {
+        e.preventDefault();
+        e.passive = true;
+      }
+    }
+    Polymer(IoApp);
+  })();
+  </script>
+</dom-module>

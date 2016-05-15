@@ -1,0 +1,118 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="../io-icons/io-icons.html">
+<link rel="import" href="../io-svg/io-svg.html">
+
+<dom-module id="io-avatar">
+  <template>
+    <style>
+      :host {
+        display: inline-flex;
+        padding: 1em;
+        box-sizing: border-box;
+      }
+      .avatar-container {
+        position: relative;
+        border: 2px solid rgba(255, 255, 255, 0.54);
+        border-radius: 50%;
+        height: 90px;
+        width: 90px;
+      }
+      .avatar-container .image {
+        background-size: contain;
+        border-radius: 50%;
+        height: 100%;
+        width: 100%;
+        fill: currentColor
+      }
+    </style>
+    <div class="avatar-container">
+      <div class="image" style="[[_computeStyle(placeholder, src, provider, uid, size)]]"></div>
+    </div>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'io-avatar',
+
+      properties: {
+        src: {
+          type: String,
+          value: null
+        },
+
+        provider: {
+          type: String,
+          value: null
+        },
+
+        uid: {
+          type: String,
+          value: null
+        },
+
+        size: {
+          type: String,
+          value: 'medium'
+        },
+
+        placeholder: {
+          type: String,
+          value: '/images/touch/io-logo.svg'
+        },
+
+        iconset: {
+          type: Boolean,
+          value: true
+        }
+      },
+
+      _isIconsetIcon(str) {
+        return str.includes('.svg')
+      },
+
+      _applyIoSvg(svg) {
+        if (!this._ioSvg) {
+          this._ioSvg = document.createElement('io-svg');
+        }
+        if (!this._img) {
+          this._img = this.$$('.image');
+        }
+        this._ioSvg.setAttribute('svg', svg);
+        Polymer.dom(this._img).appendChild(this._ioSvg);
+      },
+
+      _removeIoSvg() {
+        if (this._ioSvg) {
+          Polymer.dom(this._img).removeChild(this._ioSvg);
+        }
+      },
+
+      _computeStyle(placeholder, src, provider, uid, size) {
+        var _src = src ? src : placeholder;
+        if (provider && uid) {
+          this._removeIoSvg();
+          return `background-image: url(https://avatars.io/${provider}/${uid}/${size})`;
+        } else if (!_src.includes('.') && !_src.includes('http')) {
+          this._applyIoSvg(_src);
+          return 'background-image: none';
+        } else if (src || placeholder) {
+          this._removeIoSvg();
+          return `background-image: url(${src ? src : placeholder})`;
+        }
+      }
+    });
+  })();
+  </script>
+</dom-module>

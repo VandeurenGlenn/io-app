@@ -1,0 +1,36 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/carbon-route/carbon-route.html">
+<dom-module id="io-route">
+  <template>
+    <style>
+      :host {
+        display: none;
+      }
+    </style>
+    <carbon-route route="[[route]]" matches="[[matches]]" data="{{subroute}}"></carbon-route>
+  </template>
+  <script>
+    (function() {
+      class IoRoute {
+        beforeRegister() {
+          this.is = 'io-route';
+
+          this.properties = {
+            route: String,
+            subroute: {
+              type: Object,
+              observer: '__subRouteChange__'
+            },
+            matches: String
+          };
+        }
+
+        __subRouteChange__(change) {
+
+          console.log(this.route, change);
+        }
+      }
+      Polymer(IoRoute);
+    })();
+  </script>
+</dom-module>

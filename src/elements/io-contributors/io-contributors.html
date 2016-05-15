@@ -1,0 +1,158 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="/styles/shared-styles.html">
+<dom-module id="io-contributors">
+  <template>
+    <style include="shared-styles"></style>
+    <style>
+      :host {
+        @apply(--app-section);
+      }
+      paper-material {
+        display: flex;
+        will-change: width, opacity, transform;
+      }
+      .info {
+        width: 80%;
+        opacity: 0;
+        transform: translateX(-113%) scale(0, 0);
+      }
+      .info:not([active]), .info[active] img, .info[active] .column.row {
+        transition: width ease-out 0.16s, opacity ease-out 0.16s, transform ease-out 0.16s;
+      }
+      .info[active]{
+        width: 72%;
+      }
+      .info[active], .info[active] img, .info[active] .column.row {
+        opacity: 1;
+        transform: translateX(0) scale(1, 1);
+        transition: width ease-in 0.16s, opacity ease-in 0.3s, transform ease-in 0.16s;
+      }
+      img {
+        width: 256px;
+        height: 256px;
+        border-radius: 2px;
+      }
+      a {
+        @apply(--layout-horizontal);
+        @apply(--layout-center);
+        text-decoration: none;
+      }
+      a img {
+        width: 56px;
+        height: 56px;
+        border-radius: 50px;
+      }
+      a .name {
+        padding-left: 8px;
+      }
+      .column {
+        padding-left: 32px;
+      }
+      .column h2 {
+        padding-right: 8px;
+      }
+    </style>
+    <!-- TODO: Add search & sort -->
+    <!-- <app-toolbar>
+      <span class="flex"></span>
+      <paper-icon-button icon="io-icons:search"></paper-icon-button>
+    </app-toolbar> -->
+    <template is="dom-repeat" items="[[contributors]]" on-dom-change="_onDomChange" filter="[[_isSelected(data)]]">
+
+      <paper-material elevation="1">
+        <a
+          key$="[[item.__key__]]"
+          href="#contributors/contributor/[[item.id]]/?name=[[item.login]]">
+          <img src="[[item.avatar_url]]" alt="" />
+          <span class="name title-2">[[item.login]]</span>
+        </a><br>
+      </paper-material>
+
+      <paper-material class="info row" elevation="1" active$="[[active]]">
+        <img src="[[item.avatar_url]]" alt="" />
+        <div class="column">
+          <span class="row center"><h2 class="title-3">[[item.type]]:</h2><div class="text-2">{{item.login}}</div></span>
+          <span class="row center"><h2 class="title-3">Contributions:</h2><div class="text-2">[[item.contributions]]</div></span>
+          <span class="row center"><h2 class="title-3">Url:</h2><div class="text-2"><a href="[[item.html_url]]">[[item.html_url]]</a></div></span>
+        </div>
+      </paper-material>
+    </template>
+  </template>
+  <script>
+    (function() {
+      'use strict';
+      class IoContributors {
+        beforeRegister() {
+          this.is = 'io-contributors';
+
+          this.properties = {
+            contributors: {
+              type: Array,
+              value: function() {
+                return [{
+                  name: 'Glenn',
+                  familyname: 'Vandeuren'
+                }];
+              }
+            },
+
+            active: {
+              type: Boolean,
+              value: false
+            },
+
+            data: {
+              type: Object,
+              value: {}
+            },
+
+            animating: {
+              type: Boolean,
+              value: false
+            }
+          };
+          this.listeners = {
+            transitionend: '_onTransitionEnd'
+          }
+        }
+
+        get nodes() {
+          return document.querySelectorAll('a');
+        }
+
+        _computeActive(active, animating) {
+          if (active && !animating) {
+            return true;
+          } else if(!active && !animating) {
+            return false;
+          }
+        }
+
+        _onTransitionEnd() {
+          this.animating = false;
+          return;
+        }
+
+        _onDomChange(event) {
+          this.nodes.forEach(node => {
+            node.addEventListener('click', () => {
+              this.animating = true;
+            });
+          });
+          console.log(event);
+        }
+
+        _isSelected(data) {
+          return item => {
+            if (Number(data.id) === item.id) {
+              return item;
+            }
+            return true;
+          }
+        }
+      }
+      Polymer(IoContributors);
+    })();
+  </script>
+</dom-module>

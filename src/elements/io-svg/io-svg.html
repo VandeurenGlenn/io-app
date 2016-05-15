@@ -1,0 +1,72 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/iron-meta/iron-meta.html">
+
+<dom-module id="io-svg">
+  <template>
+  </template>
+  <script>
+    (function() {
+      'use strict';
+
+      class IoSvg {
+        beforeRegister() {
+          this.is = 'io-svg';
+
+          this.properties = {
+
+            svg: {
+              type: String,
+              value: null
+            },
+
+            /**
+             * @type {!Polymer.IronMeta}
+             */
+            _meta: {
+              value: Polymer.Base.create('iron-meta', {type: 'iconset'}),
+              observer: '__svgChanged'
+            },
+
+            theme: String
+          };
+        }
+
+        get DEFAULT_SETNAME() {
+          return 'io-icons';
+        };
+
+        get svg() {
+          return this.getAttribute('svg');
+        };
+
+        set svg(svg) {
+          this.__svgChanged(svg);
+        };
+
+        _usesSvgSet(svg) {
+          return new String(svg).includes(':');
+        };
+
+        _updateSvg() {
+          this._svgset = /** @type {?Polymer.Iconset} */ (this._meta.byKey(this._svgsetName));
+          this._svgset.applyIcon(this, this._svgName, this.theme);
+        };
+
+        __svgChanged() {
+          if (this.svg) {
+            if (this._usesSvgSet(this.svg)) {
+              var parts = (this.svg || '').split(':');
+              this._svgName = parts.pop();
+              this._svgsetName = parts.pop();
+            } else {
+              this._svgName = this.svg;
+              this._svgsetName = this.DEFAULT_SETNAME;
+            }
+            this._updateSvg();
+          }
+        };
+      }
+      Polymer(IoSvg);
+    })();
+  </script>
+</dom-module>
