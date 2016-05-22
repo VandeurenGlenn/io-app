@@ -1,7 +1,6 @@
-<link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="/bower_components/carbon-route/carbon-location.html">
-<link rel="import" href="/bower_components/carbon-route/carbon-route.html">
-<link rel="import" href="io-route.html">
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/carbon-route/carbon-location.html">
+<link rel="import" href="../../bower_components/carbon-route/carbon-route.html">
 
 <dom-module id="io-routing">
   <template>
@@ -36,6 +35,11 @@
         this.properties = {
 
           pageData: {
+            type: Object,
+            notify: true
+          },
+
+          subroute: {
             type: Object,
             notify: true
           },
