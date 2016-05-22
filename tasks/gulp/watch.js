@@ -14,7 +14,7 @@ var watch = obj => {
   // gulp.watch(['src/images/**/*'], gulp.series('images', 'reload'));
 };
 
-gulp.task('watch', () => {
+gulp.task('watch:dev', () => {
   var paths = [{
     path: ['src/**/*.html', '!src/bower_components/**/*.html'],
     run: gulp.series('ES6', 'inject', 'reload')
@@ -24,6 +24,25 @@ gulp.task('watch', () => {
   }, {
     path: ['src/scripts/**/*.js', 'src/scripts/*'],
     run: gulp.series('ES6', 'reload')
+  }, {
+    path: ['src/images/**/*'],
+    run: gulp.series('images', 'reload')
+  }];
+  paths.forEach(obj => {
+    watch(obj);
+  });
+});
+
+gulp.task('watch:dist', () => {
+  var paths = [{
+    path: ['src/**/*.html', '!src/bower_components/**/*.html'],
+    run: gulp.series('ES6', 'inject', 'vulcanize', 'reload')
+  }, {
+    path: ['src/styles/**/*.css'],
+    run: gulp.series('styles', 'vulcanize', 'reload')
+  }, {
+    path: ['src/scripts/**/*.js', 'src/scripts/*'],
+    run: gulp.series('ES6', 'vulcanize', 'reload')
   }, {
     path: ['src/images/**/*'],
     run: gulp.series('images', 'reload')
