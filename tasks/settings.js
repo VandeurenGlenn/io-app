@@ -20,17 +20,26 @@ class Settings {
     this.ioFile = JSON.parse(fs.readFileSync(this.sources.io));
     this.bowerFile = JSON.parse(fs.readFileSync(this.sources.bower));
     this.packageFile = JSON.parse(fs.readFileSync(this.sources.bower));
+  }
 
-    this.repo = this._repo;
+  get appname() {
+    return this.ioFile.name || this.bowerFile.name || this.packageFile.name;
+  }
+
+  get injectTags() {
+    return this.ioFile.inject.tags;
   }
 
   get github() {
     return this.ioFile.inject.plugins.github;
   }
 
-  get _repo() {
-    var bowerFile = fs.readFileSync('bower.json');
+  get repo() {
     return this.bowerFile.homepage.replace('https://github.com/', '');
+  }
+
+  get files() {
+    return this.ioFile.files;
   }
 }
 

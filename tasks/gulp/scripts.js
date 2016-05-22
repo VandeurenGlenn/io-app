@@ -9,5 +9,5 @@ var scriptsTask = function(src, dest) {
 };
 
 gulp.task('scripts', function() {
-  return scriptsTask('scripts/*', GLOBAL.config.dist('scripts'));
+  return scriptsTask('scripts/*', `${GLOBAL.config.dest}/scripts`);
 });

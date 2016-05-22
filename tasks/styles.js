@@ -23,7 +23,6 @@ var styleTask = function() {
     .pipe($.minifyCss())
     .pipe($.license(GLOBAL.config.license, GLOBAL.config.licenseOptions))
     .pipe(size({title: 'styles: '}))
-    .pipe(gulp.dest(GLOBAL.config.temp))
     .pipe(gulp.dest(GLOBAL.config.dest));
 };
 
