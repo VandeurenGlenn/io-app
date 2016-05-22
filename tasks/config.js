@@ -8,8 +8,10 @@ module.exports = function() {
   GLOBAL.config = {
     src: 'src',
     dest: DEST,
+    dist: 'dist',
     temp: '.tmp',
     env: 'dev',
+    CSP_ALL: false,
     version: bowerFile.version,
     server: JSON.parse(fs.readFileSync('./.server-config', 'utf8')),
     settings: JSON.parse(fs.readFileSync('./.ioconfig', 'utf8')),
