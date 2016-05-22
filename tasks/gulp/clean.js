@@ -4,14 +4,14 @@ var del = require('del');
 // var dist = require('./dist');
 
 gulp.task('clean:dist', cb => {
-  del([GLOBAL.config.dest], {dot: true})
+  del([GLOBAL.config.dist], {dot: true})
   .then(function() {
     cb();
   });
 });
 
 gulp.task('clean:tmp', cb => {
-  del(['.tmp'], {dot: true})
+  del([GLOBAL.config.temp], {dot: true})
   .then(function() {
     cb();
   });
@@ -24,5 +24,11 @@ gulp.task('clean:ragin', cb => {
   });
 });
 
+gulp.task('clean:vulcanize', cb => {
+  del([`${GLOBAL.config.dest}/bower_components`], {dot: true})
+  .then(function() {
+    cb();
+  });
+});
 // Clean output directory
 gulp.task('clean', gulp.parallel('clean:dist', 'clean:tmp'));
