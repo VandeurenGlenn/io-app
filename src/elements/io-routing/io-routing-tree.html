@@ -1,0 +1,44 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<dom-module id="io-routing-tree">
+  <template>
+    <style>
+      :host {
+        display: block;
+        @apply(--layout-horizontal);
+        color: #FFFFFF;
+        font-size: 20px;
+        text-transform: lowercase;
+      }
+      .spacer {
+        padding: 0 8px;
+      }
+      [active] {
+        opacity: 0.87;
+      }
+      :not([active]) {
+        opacity: 0.72;
+      }
+    </style>
+    <div active$="[[!subrouteActive]]">[[route]]</div>
+    <template is="dom-if" if="[[subrouteActive]]">
+      <span class="spacer">></span>
+      <div active$="[[subrouteActive]]">[[subroute]]</div>
+    </template>
+  </template>
+  <script>
+    (function() {
+      'use strict';
+      class IoRoutingTree {
+        beforeRegister() {
+          this.is = 'io-routing-tree';
+          this.properties = {
+            route: String,
+            subroute: String,
+            subrouteActive: Boolean
+          }
+        }
+      }
+      Polymer(IoRoutingTree);
+    })();
+  </script>
+</dom-module>
