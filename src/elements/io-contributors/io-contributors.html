@@ -1,6 +1,6 @@
-<link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="/bower_components/paper-icon-button/paper-icon-button.html">
-<link rel="import" href="/styles/shared-styles.html">
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../styles/shared-styles.html">
 <dom-module id="io-contributors">
   <template>
     <style include="shared-styles"></style>
@@ -63,18 +63,18 @@
       <paper-material elevation="1">
         <a
           key$="[[item.__key__]]"
-          href="#contributors/contributor/[[item.id]]/?name=[[item.login]]">
-          <img src="[[item.avatar_url]]" alt="" />
-          <span class="name title-2">[[item.login]]</span>
+          href="#contributors/contributor/[[item.author.id]]/?name=[[item.author.login]]">
+          <img src="[[item.author.avatar_url]]" alt="" />
+          <span class="name title-2">[[item.author.login]]</span>
         </a><br>
       </paper-material>
 
       <paper-material class="info row" elevation="1" active$="[[active]]">
-        <img src="[[item.avatar_url]]" alt="" />
+        <img src="[[item.author.avatar_url]]" alt="" />
         <div class="column">
-          <span class="row center"><h2 class="title-3">[[item.type]]:</h2><div class="text-2">{{item.login}}</div></span>
-          <span class="row center"><h2 class="title-3">Contributions:</h2><div class="text-2">[[item.contributions]]</div></span>
-          <span class="row center"><h2 class="title-3">Url:</h2><div class="text-2"><a href="[[item.html_url]]">[[item.html_url]]</a></div></span>
+          <span class="row center"><h2 class="title-3">[[item.author.type]]:</h2><div class="text-2">{{item.author.login}}</div></span>
+          <span class="row center"><h2 class="title-3">Contributions:</h2><div class="text-2">[[item.total]]</div></span>
+          <span class="row center"><h2 class="title-3">Url:</h2><div class="text-2"><a href="[[item.author.html_url]]">[[item.author.html_url]]</a></div></span>
         </div>
       </paper-material>
     </template>
@@ -91,8 +91,10 @@
               type: Array,
               value: function() {
                 return [{
-                  name: 'Glenn',
-                  familyname: 'Vandeuren'
+                  author: {
+                    name: 'Glenn',
+                    familyname: 'Vandeuren'
+                  }
                 }];
               }
             },
@@ -140,12 +142,12 @@
               this.animating = true;
             });
           });
-          console.log(event);
         }
 
         _isSelected(data) {
           return item => {
-            if (Number(data.id) === item.id) {
+            if (Number(data.id) === Number(item.author.id)) {
+              this.fire('selected-contributor-change', {name: item.author.login});
               return item;
             }
             return true;
