@@ -14,5 +14,5 @@ var imageOptimizeTask = function(src, dest) {
 };
 
 gulp.task('images', function() {
-  return imageOptimizeTask('src/images/**/*', GLOBAL.config.dist('images'));
+  return imageOptimizeTask('src/images/**/*', `${GLOBAL.config.dest}/images`);
 });
