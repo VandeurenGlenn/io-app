@@ -49,12 +49,6 @@
             notify: true
           },
 
-          route: {
-            type: Object,
-            notify: true,
-            observer: '__pathChange__'
-          },
-
           userInfoActive: {
             type: Boolean,
             value: false,
@@ -62,12 +56,6 @@
           }
         };
       }
-
-      __pathChange__(path) {
-        Array.from(this.querySelectorAll('lab-route')).forEach(routeEl => {
-          routeEl.route = path;
-        });
-      };
 
       go(route) {
         // var location =
