@@ -57,7 +57,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </template>
 
     <template is="dom-if" if="[[!user]]">
-      <span class="app-name .name">[[appName]]</span>
+      <span class="app-name .name">[[_appName(appName)]]</span>
     </template>
 
   </template>
@@ -69,16 +69,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       is: 'io-drawer-header',
 
       properties: {
-        appName: {
-          type: String,
-          value: function() {
-            return this._appName(this._host.appName);
-          }
-        }
-      },
-
-      get _host() {
-        return Polymer.dom(document.querySelector('#app')).node;
+        appName: String
       },
 
       _appName(name) {
