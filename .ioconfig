@@ -2,6 +2,18 @@
   "name": ".io",
   "inject": {
     "src": ".tmp/**/*.{html,js}",
-    "plugins": {"github": true}
+    "plugins": {"github": true},
+    "tags": {
+      "appname": "@inject:appname",
+      "contributors": "/'@inject:contributors'/g"
+    }
+  },
+  "files": {
+    "contributors": {
+      "name": "contributors",
+      "write": true,
+      "dest": "src",
+      "inject": "/'@inject:contributors'/g"
+    }
   }
 }
