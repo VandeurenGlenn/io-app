@@ -2,9 +2,17 @@
 var gulp = require('gulp');
 
 gulp.task('copy:bower_components', cb => {
-  gulp.src('src/bower_components/**/*.{js,html}').pipe(gulp.dest('.tmp/bower_components')).on('end', () => {
+  var path;
+  if (GLOBAL.config.env === 'dev') {
+    path = ['src/bower_components/**/*.{js,html}'];
+  } else {
+    // get every file that can not be vulcanized
+    path = ['src/bower_components/**/*.js'];
+  }
+  gulp.src(path)
+  .pipe(gulp.dest(`${GLOBAL.config.dest}/bower_components`).on('end', () => {
     return cb();
-  });
+  }));
 });
 
 // copy components to temporary folder
