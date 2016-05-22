@@ -1,18 +1,15 @@
 'use strict';
 var fs = require('fs');
-var path = require('path');
 
 var bowerFile = JSON.parse(fs.readFileSync('./bower.json', 'utf8'));
-var DIST = GLOBAL.config ? GLOBAL.config.dest : 'dist';
+var DEST = GLOBAL.config ? GLOBAL.config.dest : 'dist';
 
 module.exports = function() {
   GLOBAL.config = {
     src: 'src',
-    dest: 'dist',
+    dest: DEST,
     temp: '.tmp',
-    dist: function(subpath) {
-      return subpath ? path.join(DIST, subpath) : DIST;
-    },
+    env: 'dev',
     version: bowerFile.version,
     server: JSON.parse(fs.readFileSync('./.server-config', 'utf8')),
     settings: JSON.parse(fs.readFileSync('./.ioconfig', 'utf8')),
