@@ -1,3 +1,4 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="elements.html">
 
 <dom-module id="io-app">
@@ -9,6 +10,9 @@
         position: absolute;
         height: 100%;
         width: 100%;
+      }
+      io-routing-tree {
+        padding: 0 16px;
       }
       iron-pages {
         @apply(--layout-vertical);
@@ -34,12 +38,19 @@
       paper-icon-item {
         cursor: pointer;
       }
+      .branding {
+        @apply(--layout-horizontal);
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+      }
     </style>
     <!-- <carbon-location route="{{route}}"></carbon-location> -->
       <io-routing
         page="{{page}}"
         routes="[[routes]]"
         page-data="{{pageData}}"
+        subroute="{{subroute}}"
         subroute-data="{{subrouteData}}"
         user-info-active="{{contributorInfoActive}}">
       </io-routing>
@@ -47,18 +58,18 @@
       <app-drawer-layout responsive-width="1440px">
 
         <app-drawer>
-          <io-drawer-header user="[[user]]">
+          <io-drawer-header user="[[user]]" app-name="[[appName]]">
           </io-drawer-header>
           <paper-icon-item class="iconItem" on-click="goHome">
-            <iron-icon class="grayIcon" icon="home" item-icon></iron-icon> <span>Home</span>
+            <iron-icon class="grayIcon" icon="io-icons:home" item-icon></iron-icon> <span>Home</span>
           </paper-icon-item>
 
           <paper-icon-item class="iconItem" on-click="goContributors">
-            <iron-icon class="grayIcon" icon="info" item-icon></iron-icon> <span>Contributors</span>
+            <iron-icon class="grayIcon" icon="io-icons:account-circle" item-icon></iron-icon> <span>Contributors</span>
           </paper-icon-item>
 
           <paper-icon-item class="iconItem" on-click="goContact">
-            <iron-icon class="grayIcon" icon="mail" item-icon></iron-icon> <span>Contact</span>
+            <iron-icon class="grayIcon" icon="io-icons:info" item-icon></iron-icon> <span>Contact</span>
           </paper-icon-item>
         </app-drawer>
 
@@ -67,11 +78,13 @@
             <paper-icon-button id="toggle" icon="menu" drawer-toggle></paper-icon-button>
 
             <template is="dom-if" if="[[user]]">
-              <iron-icon icon="io-icons:logo"></iron-icon>
-              <div title class="app-name">io</div>
+              <div class="branding">
+                <io-icon icon="logo"></io-icon>
+                <div class="app-name">[[appName]]</div>
+              </div>
             </template>
 
-            <span class="page-title">[[pageData.page]]</span>
+            <io-routing-tree route="[[pageData.page]]" subroute="[[_subPath]]" subroute-active="[[subroute.path]]"></io-routing-tree>
 
             <div class="flex"></div>
             <io-login client-id="751723094569-oh83n7n4vuif9fabigeqamivr28pbfsa.apps.googleusercontent.com" user="{{user}}"></io-login>
@@ -79,12 +92,13 @@
         </app-header>
 
           <iron-pages selected="[[pageData.page]]" attr-for-selected="id">
-            <io-home id="home"></io-home>
+            <io-home id="home" app-name="[[appName]]"></io-home>
             <io-contributors
               id="contributors"
               contributors="[[contributors]]"
               active="[[contributorInfoActive]]"
-              data="[[subrouteData]]">
+              data="[[subrouteData]]"
+              on-selected-contributor-change="_updateSubpath">
             </io-contributors>
             <section id="contact">
               <paper-material elevation="1">
@@ -154,6 +168,10 @@
       handleMouse(e) {
         e.preventDefault();
         e.passive = true;
+      }
+
+      _updateSubpath(event) {
+        this._subPath = event.detail.name;
       }
     }
     Polymer(IoApp);
