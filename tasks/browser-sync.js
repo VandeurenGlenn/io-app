@@ -22,7 +22,7 @@ module.exports = (port, logPrefix, snippetMatch, baseDir) => {
     //       will present a certificate warning in the browser.
     // https: true,
     server: {
-      baseDir: baseDir,
+      baseDir: GLOBAL.config.dest,
       middleware: [historyApiFallback()]
     }
   });
