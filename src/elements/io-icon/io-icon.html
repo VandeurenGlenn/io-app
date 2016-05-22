@@ -1,0 +1,78 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<dom-module id="io-icon">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <div class="image" style="[[_computeStyle(icon, size, maxSize)]]"></div>
+
+  </template>
+  <script>
+    (function() {
+      'use strict';
+      class IoIcon {
+        beforeRegister() {
+          this.is = 'io-icon';
+
+          this.properties = {
+            icon: String,
+            size: {
+              type: Number,
+              value: 32
+            },
+            maxSize: {
+              type: Number,
+              value: 32
+            }
+          };
+        }
+
+        get sizeUsed() {
+          return this.hasAttribute('size');
+        }
+
+        _applyIoSvg(svg) {
+          if (!this._ioSvg) {
+            this._ioSvg = document.createElement('io-svg');
+          }
+          if (!this._img) {
+            this._img = this.$$('.image');
+          }
+          this._ioSvg.setAttribute('svg', svg);
+          Polymer.dom(this._img).appendChild(this._ioSvg);
+        }
+
+        _removeIoSvg() {
+          if (this._ioSvg) {
+            Polymer.dom(this._img).removeChild(this._ioSvg);
+          }
+        }
+
+        _computeStyle(icon, size, max) {
+          var style;
+          if (!icon.includes('.') && !icon.includes('http')) {
+            this._applyIoSvg(icon);
+            if (max && !this.sizeUsed) {
+              style = `max-width: ${max}px; max-height: ${max}px;`;
+            } else {
+              style = `width: ${size}px; height: ${size}px;`;
+            }
+            return style;
+          }
+          this._removeIoSvg();
+          if (max && !this.sizeUsed) {
+            style = `background-image: url(${icon}); max-width: ${max}px; max-height: ${max}px;`;
+          } else {
+            style = `background-image: url(${icon}); width: ${size}px; height: ${size}px;`;
+          }
+          return style;
+        }
+      }
+
+      Polymer(IoIcon);
+    })();
+  </script>
+</dom-module>
